@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <script src="https://raw.githubusercontent.com/instafluff/ComfyJS/master/dist/comfy.js", type='text/javascript'></script>
+    <script src="https://raw.githubusercontent.com/tmijs/tmi.js/main/dist/tmi.js", type='text/javascript'></script>
+    <script src="conf.js", type='text/javascript'></script>
+
+  </head>
+
+  <body>
+    <h2> Talking: </h2>
+    <div id="div">___</div><button onclick="sayitAgain()">Say it again</button>
+    <script>
+
+    // If you steal this, please give some credit at SquidgeyBusiness on Twitch, maybe even give me a follow :)
+    // Instafluff created the back-end of this, without it, this wouldn't be possible https://twtch.tv/instafluff (he's a really nice guy)
+
+      let div = document.getElementById('div');
+
+      div.textContent = " ___ ";
+      // change me to someone you want to be able to send TTS
+
+      let firstTts = 0;
+      // I ONLY WORK IN CHROMIUM (CHROME/EDGE)
+      var ttsVolume = 0.8; // volum goes from 0 to 1
+      var chosenVoice = 0; // install tts packs on Windows 10/11, first one in the list is 0, going on to the max you have installed
+      var chosenLang = "en-US"; // default, doesn't need changing
+      var limitTtsLength = false; // set to true to limit the time that TTS is allowed to speak
+      var ttsTimeLimit = 15000; // set to a time in milliseconds that tts is allowed to speak for a total time of: 15 seconds = 15000
+
+      function talktoMe(inputMessage){
+        inputMessage = inputMessage.replace("/</g", "&lt;").replace("/>/g", "&gt;");
+        // I'm not explaining this... this hurts to explain.
+        var newVoice = new SpeechSynthesisUtterance();
+        const voices = window.speechSynthesis.getVoices();
+        newVoice.text = inputMessage;
+        newVoice.volume = ttsVolume;
+        newVoice.lang = chosenLang;
+        newVoice.voice = voices[chosenVoice];
+        if (firstTts == 0){
+          window.speechSynthesis.cancel();
+          console.log("first start of TTS");
+          firstTts++;
+        }
+        setTimeout(() => window.speechSynthesis.speak(newVoice), (250));
+        if (limitTtsLength == true){
+          setTimeout(() => window.speechSynthesis.cancel(), (ttsTimeLimit-250));
+        }
+        console.log("STARTING TALK TO ME");
+        console.log("MESSAGE: " + inputMessage)
+        div.textContent = inputMessage;
+
+        setTimeout(() => (console.log("STOPPING TALK TO ME")), (ttsTimeLimit));
+        newVoice.onend = function(e) {
+          console.log('Finished in ' + event.elapsedTime/1000 + ' seconds.');
+        }
+      }
+
+      talktoMe("Started");
+
+      ComfyJS.Init( TWITCHUSER, OAUTH );
+
+      ComfyJS.onReward = ( user, reward, cost, message, extra ) => {
+        message = message.replace(/</g, "&#60;").replace(/>/g, "&#62;");
+        // The points Reward name must be exactly the same name as written in the if state below
+        if(reward == "TTS"){
+          talktoMe(message);
+        }
+      }
+      ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
+        // use !tts add a message
+        // where "add a message" is the message you want to send into the TTS
+      if( user === commandAdmin1 && command === "tts" ) {
+          talktoMe(message);
+        }
+      }
+      ComfyJS.Init( TWITCHUSER );
+
+      function sayitAgain() {
+        talktoMe(div.textContent);
+      }
+
+    </script>
+
+  </body>
+
+</html>
