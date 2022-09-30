@@ -4,7 +4,7 @@
 // go here: https://twitchtokengenerator.com/
 // Choose: channel:manage:redemptions // channel:read:redemptions // user:read:email // chat:edit // chat:read
 // ---------- YOU NEED THE ACCESS TOKEN TO PUT IN OAUTH VARIABLE BELOW ----------
-// Once set up with OAUTH you simply launch the webpage (make sure conf.js is with the tts.html file)
+// Once set up with OAUTH you simply launch the webpage (make sure conf.js is with the tts.html, comfy.js and tmi.js files)
 // There's a button you can press to replay the last thing said
 // This setup uses Windows TTS installed voices - I haven't tested on Linux
 ////////////////////////////////////////////////////////////////
