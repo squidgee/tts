@@ -3,7 +3,10 @@
 // RREEEEEEEEAAAAAD MEEEEEEEEEEEE
 // go here: https://twitchtokengenerator.com/
 // Choose: channel:manage:redemptions // channel:read:redemptions // user:read:email // chat:edit // chat:read
-// YOU NEED THE REFRESH TOKEN TO PUT IN OAUTH VARIABLE BELOW
+// ---------- YOU NEED THE REFRESH TOKEN TO PUT IN OAUTH VARIABLE BELOW ----------
+// Once set up with OAUTH you simply launch the webpage (make sure conf.js is with the tts.html file)
+// There's a button you can press to replay the last thing said
+// This setup uses Windows TTS installed voices - I haven't tested on Linux
 ////////////////////////////////////////////////////////////////
 
 //set an admin you want to be able to send commands in TTS as, without using the reward points (using !tts message)
